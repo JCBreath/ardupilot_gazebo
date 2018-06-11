@@ -148,3 +148,26 @@ example : for SITL default location
     </spherical_coordinates>
 ````
 
+## Example: Usage with ROS to simulate a mocap system
+
+Start the ardupilot simulation
+```
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 --console -I0
+```
+
+Start gazebo with ros
+```
+roslaunch ardupilot_gazebo iris_world.launch
+```
+
+Connect to the simulated ardupilot via mavros
+```
+roslaunch mavros_optitrack apm_indoor_gps.launch
+roslaunch mavros_optitrack rate_correction.launch
+```
+
+Publish data as if from our optitrack system (make sure GPS and compass are disabled)
+```
+rosrun ardupilot_gazebo simulate_optitrack.py
+```
+

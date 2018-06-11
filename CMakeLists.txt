@@ -27,6 +27,9 @@ include_directories(
         ${GAZEBO_INCLUDE_DIRS}
         )
 
+# fix OgrePagedWorldSection.h error
+include_directories(${ADDITIONAL_INCLUDE_DIRS} ${OGRE_INCLUDE_DIRS}/Paging)
+
 link_libraries(
         ${CMAKE_CURRENT_BINARY_DIR}
         ${GAZEBO_LIBRARIES}
