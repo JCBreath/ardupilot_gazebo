@@ -92,7 +92,7 @@ roslaunch ardupilot_gazebo mavros_opitrack.launch
 
 ## Troubleshooting
 
-### Missing libArduPilotPlugin.so... etc 
+### Missing libArduPilotPlugin.so ... etc
 
 In case you see this message when you launch gazebo with demo worlds, check you have no error after sudo make install.  
 If no error use "ls" on the install path given to see if the plugin is really here.  
