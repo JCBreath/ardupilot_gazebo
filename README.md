@@ -13,11 +13,14 @@ Install [ROS Kinetic](http://wiki.ros.org/kinetic/Installation)
 
 Set up a [catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
 
-Install [Gazebo and gazebo_ros_pkgs](http://gazebosim.org/tutorials?tut=ros_installing)
+Install [Gazebo and gazebo_ros_pkgs](http://gazebosim.org/tutorials?tut=ros_installing) (included in `ros-kinetic-desktop-full`)
 
 Set up [Ardupilot SITL](http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html)
 
 Install [Mavros](http://wiki.ros.org/mavros)
+```
+sudo apt-get install ros-kinetic-mavros ros-kinetic-mavros-extras
+```
 
 Clone and build this repository
 ```
@@ -35,7 +38,7 @@ source ~/.bashrc
 
 Copy world to Gazebo
 ```
-sudo cp -a ~/ardupilot_gazebo/gazebo_worlds/. /usr/share/gazebo-7/worlds
+sudo cp -a ardupilot_gazebo/gazebo_worlds/. /usr/share/gazebo-7/worlds
 ```
 
 ## Examples
