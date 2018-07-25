@@ -69,7 +69,7 @@ def set_home_position(mav, pub):
     x = 0
     y = 0
     z = 0
-    q = [0, 0, 0, 1]
+    q = [1, 0, 0, 0]   # w x y z
 
     approach_x = 0
     approach_y = 0
