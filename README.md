@@ -90,8 +90,19 @@ roslaunch ardupilot_gazebo iris_world.launch
 Connect to the simulated ardupilot via mavros and simulate an optitrack system based
 on the actual pose from Gazebo. 
 ```
-roslaunch ardupilot_gazebo mavros_opitrack.launch
+roslaunch ardupilot_gazebo mavros_optitrack.launch
 ```
+
+### Explore simple commands with mavros
+
+Start the simulator and launch the gazebo environment (with or without simulated optitrack, see above)
+
+Run the example script:
+```
+rosrun ardupilot_gazebo mavros_control.py
+```
+
+For more information, see `src/mavros_control.py`
 
 ## Troubleshooting
 
