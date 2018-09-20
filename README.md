@@ -32,7 +32,7 @@ catkin_make
 
 Add models to the Gazebo path
 ```
-echo 'export GAZEBO_MODEL_PATH="${GAZEBO_MODEL_PATH}${HOME}/catkin_ws/src/ardupilot_gazebo/gazebo_worlds"' >> ~/.bashrc
+echo 'export GAZEBO_MODEL_PATH="${GAZEBO_MODEL_PATH}${HOME}/catkin_ws/src/ardupilot_gazebo/gazebo_models"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -119,6 +119,13 @@ sudo cp -a /usr/lib/x86_64-linux-gnu/gazebo-7.0/plugins/ /usr/lib/x86_64-linux-g
 ```
 
 path mismatch is confirmed as ROS's glitch. It'll be fixed.
+
+### Unstable behavior
+
+Try reducing the roll rate D-gain:
+```
+> param set ATC_RAT_RLL_D 0.000100
+```
 
 ### Future(not activated yet)
 To use Gazebo gps, you must offset the heading of +90° as gazebo gps is NWU and ardupilot is NED 
