@@ -30,7 +30,7 @@
 
     <!-- Set the home position and GPS origin -->
     <node
-        pkg="mavros_optitrack"
+        pkg="ardupilot_gazebo"
         type="set_origin.py"
         name="origin_publisher"
         output="screen">
