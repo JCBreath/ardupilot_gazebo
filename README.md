@@ -47,7 +47,7 @@ sudo cp -a ardupilot_gazebo/gazebo_worlds/. /usr/share/gazebo-7/worlds
 
 Start the ardupilot simulation
 ```
-sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
 ```
 
 Launch the gazebo environment
@@ -55,31 +55,19 @@ Launch the gazebo environment
 roslaunch ardupilot_gazebo iris_world.launch
 ```
 
-After confirming a GPS fix, control the the model through the SITL prompt. You can also connect apmplanner2 or your favorite GCS to the simulated model.
-
+After confirming a GPS fix (this may take a minute), control the the model through the SITL prompt. You can also connect apmplanner2 or your favorite GCS to the simulated model.
 ```
 > arm throttle
-> rc 3 1600
-> mode POSHOLD
-> rc 3 1500
-
+> mode GUIDED
+> takeoff 3
 > mode LAND
 ```
 
 ### Simulate an optitrack motion capture system
 
-In the simulation, make sure GPS and compass are off
+Start the simulation with the proper parameters
 ```
-> param set GPS_TYPE 0
-> param set EK2_GPS_TYPE 3
-> param set COMPASS_USE 0
-> param set COMPASS_USE2 0
-> param set COMPASS_USE3 0
-```
-
-Restart the ardupilot simulation, using the updated parameters
-```
-sim_vehicle.py -v ArduCopter -f gazebo-iris -m --mav10 -I0
+sim_vehicle.py -v ArduCopter -f gazebo-iris -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/optitrack.parm"
 ```
 
 Start gazebo with ros
@@ -87,10 +75,25 @@ Start gazebo with ros
 roslaunch ardupilot_gazebo iris_world.launch
 ```
 
-Connect to the simulated ardupilot via mavros and simulate an optitrack system based
-on the actual pose from Gazebo. 
+Connect to the simulated ardupilot via mavros and simulate an optitrack system (based
+on the actual pose from Gazebo). 
 ```
 roslaunch ardupilot_gazebo mavros_optitrack.launch
+```
+
+### Multi-agent Simulation
+
+Start two instances of SITL in different terminals (note that I0 and I1 are different)
+```
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
+```
+```
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I1 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
+```
+
+Launch the multi-agent gazebo file
+```
+roslaunch ardupilot_gazebo multi_agent_iris.launch
 ```
 
 ### Explore simple commands with mavros
@@ -125,6 +128,17 @@ path mismatch is confirmed as ROS's glitch. It'll be fixed.
 Try reducing the roll rate D-gain:
 ```
 > param set ATC_RAT_RLL_D 0.000100
+```
+
+### Simulating Indoor GPS with optitrack
+
+In the simulation, make sure GPS and compass are off
+```
+> param set GPS_TYPE 0
+> param set EK2_GPS_TYPE 3
+> param set COMPASS_USE 0
+> param set COMPASS_USE2 0
+> param set COMPASS_USE3 0
 ```
 
 ### Future(not activated yet)
