@@ -3,7 +3,20 @@
     <!-- Sets up a mavlink connection with the SITL ardupilot, and streams pose information
          as if there were an optitrack motion capture system publishing to /Robot_1/pose -->
 
-    <include file="$(find ardupilot_gazebo)/spawn_mavros_instance.launch"></include>
+    <!-- Launch the Gazebo Simulation -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find ardupilot_gazebo)/gazebo_worlds/iris_ardupilot.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/> <!-- Inert - see gazebo_ros_pkgs issue #491 -->
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+
+    <!-- Launch a mavros instance to connect to the simulated copter -->
+    <include file="$(find ardupilot_gazebo)/launch/spawn_mavros_instance.launch"></include>
     <!--
     <arg name="fcu_url" default="udp://127.0.0.1:14551@14555" />
     <arg name="gcs_url" default="" />

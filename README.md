@@ -70,16 +70,12 @@ Start the simulation with the proper parameters
 sim_vehicle.py -v ArduCopter -f gazebo-iris -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/optitrack.parm"
 ```
 
-Start gazebo with ros
+Launch the gazebo environment with a simulated mocap system (based on the actual pose from Gazebo)
 ```
-roslaunch ardupilot_gazebo iris_world.launch
+roslaunch ardupilot_gazebo iris_world_optitrack.launch
 ```
 
-Connect to the simulated ardupilot via mavros and simulate an optitrack system (based
-on the actual pose from Gazebo). 
-```
-roslaunch ardupilot_gazebo mavros_optitrack.launch
-```
+This will give a much more accurate position than the simulated GPS. 
 
 ### Multi-agent Simulation
 
