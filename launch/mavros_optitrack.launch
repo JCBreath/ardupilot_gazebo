@@ -3,6 +3,8 @@
     <!-- Sets up a mavlink connection with the SITL ardupilot, and streams pose information
          as if there were an optitrack motion capture system publishing to /Robot_1/pose -->
 
+    <include file="$(find ardupilot_gazebo)/spawn_mavros_instance.launch"></include>
+    <!--
     <arg name="fcu_url" default="udp://127.0.0.1:14551@14555" />
     <arg name="gcs_url" default="" />
     <arg name="tgt_system" default="1" />
@@ -18,7 +20,7 @@
         <arg name="tgt_system" value="$(arg tgt_system)" />
         <arg name="tgt_component" value="$(arg tgt_component)" />
         <arg name="log_output" value="$(arg log_output)" />
-    </include>
+    </include>-->
 
     <!-- Publish true pose to Robot_1/pose -->
     <node pkg="ardupilot_gazebo" type="simulate_optitrack.py" name="fake_mocap" output="screen" />

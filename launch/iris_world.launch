@@ -11,4 +11,8 @@
         <arg name="debug" value="false"/>
     </include>
 
+    <!-- Connect to the iris via a mavros connection -->
+    <include file="$(find ardupilot_gazebo)/launch/spawn_mavros_instance.launch">
+    </include>
+
 </launch>
