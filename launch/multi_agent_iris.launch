@@ -1,4 +1,5 @@
 <launch>
+    <!-- Launch a Gazebo simulation with two iris drones -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(find ardupilot_gazebo)/gazebo_worlds/iris_ardupilot_multiuav.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
         <arg name="paused" value="false"/>
