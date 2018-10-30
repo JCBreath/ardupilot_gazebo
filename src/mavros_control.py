@@ -7,6 +7,7 @@
 ##
 
 import rospy
+import threading
 from geometry_msgs.msg import Pose, PoseStamped, Twist
 from mavros_msgs.msg import OverrideRCIn
 from mavros_msgs.msg import RCIn
@@ -18,22 +19,22 @@ class MavController:
     """
     A simple object to help interface with mavros 
     """
-    def __init__(self):
+    def __init__(self, namespace=""):
 
-        rospy.init_node("mav_control_node")
-        rospy.Subscriber("/mavros/local_position/pose", PoseStamped, self.pose_callback)
-        rospy.Subscriber("/mavros/rc/in", RCIn, self.rc_callback)
+        #rospy.init_node("mav_control_node_")
+        rospy.Subscriber(namespace + "/mavros/local_position/pose", PoseStamped, self.pose_callback)
+        rospy.Subscriber(namespace + "/mavros/rc/in", RCIn, self.rc_callback)
 
-        self.cmd_pos_pub = rospy.Publisher("/mavros/setpoint_position/local", PoseStamped, queue_size=1)
-        self.cmd_vel_pub = rospy.Publisher("/mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=1)
-        self.rc_override = rospy.Publisher("/mavros/rc/override", OverrideRCIn, queue_size=1)
+        self.cmd_pos_pub = rospy.Publisher(namespace + "/mavros/setpoint_position/local", PoseStamped, queue_size=1)
+        self.cmd_vel_pub = rospy.Publisher(namespace + "/mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=1)
+        self.rc_override = rospy.Publisher(namespace + "/mavros/rc/override", OverrideRCIn, queue_size=1)
 
         # mode 0 = STABILIZE
         # mode 4 = GUIDED
         # mode 9 = LAND
-        self.mode_service = rospy.ServiceProxy('/mavros/set_mode', SetMode)
-        self.arm_service = rospy.ServiceProxy('/mavros/cmd/arming', CommandBool)
-        self.takeoff_service = rospy.ServiceProxy('/mavros/cmd/takeoff', CommandTOL)
+        self.mode_service = rospy.ServiceProxy(namespace + '/mavros/set_mode', SetMode)
+        self.arm_service = rospy.ServiceProxy(namespace + '/mavros/cmd/arming', CommandBool)
+        self.takeoff_service = rospy.ServiceProxy(namespace + '/mavros/cmd/takeoff', CommandTOL)
 
         self.rc = RCIn()
         self.pose = Pose()
@@ -115,6 +116,9 @@ class MavController:
         # Takeoff
         takeoff_resp = self.takeoff_service(altitude=height)
 
+        if takeoff_resp.success is not True:
+            print(takeoff_resp)
+
         return takeoff_resp
 
     def land(self):
@@ -156,5 +160,35 @@ def simple_demo():
     print("Landing")
     c.land()
 
+def multiagent_demo():
+    """
+    A simple demonstration of using mavros commands to control two UAVs
+    """
+
+    # Specify different controller objects for each UAV
+    c1 = MavController(namespace="/uav1")
+    c2 = MavController(namespace="/uav2")
+    rospy.sleep(1)
+
+    print("Takeoff")
+    c1.takeoff(2)
+    c2.takeoff(2)
+    rospy.sleep(10)
+
+    print("Waypoint 1: position control")
+    c1.goto_xyz(1,1,2)
+    rospy.sleep(5)
+    print("Waypoint 2: position control")
+    c2.goto_xyz(-1,-1,2)
+    rospy.sleep(5)
+
+    print("Landing")
+    c1.land()
+    c2.land()
+
 if __name__=="__main__":
+    # need to initialize a ros node before creating any MavController instances
+    rospy.init_node("mav_control_node")
+
     simple_demo()
+    #multiagent_demo()
