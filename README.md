@@ -44,7 +44,7 @@ Found these on the forums ( AHRS_EKF_TYPE 2 EKF2_ENABLE 1 EKF3_ENABLE 0 GPS_TYPE
 
 Start the ardupilot simulation
 ```
-sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0
 ```
 
 Launch the gazebo environment
@@ -78,10 +78,10 @@ This will give a much more accurate position than the simulated GPS.
 
 Start two instances of SITL in different terminals (note that I0 and I1 are different)
 ```
-sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I0"
 ```
 ```
-sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I1 --add-param-file="$(rospack find ardupilot_gazebo)/sitl_parameters/gps.parm"
+sim_vehicle.py -v ArduCopter -f gazebo-iris  -m --mav10 -I1"
 ```
 
 Launch the multi-agent gazebo file
@@ -89,16 +89,10 @@ Launch the multi-agent gazebo file
 roslaunch ardupilot_gazebo multi_agent_iris.launch
 ```
 
-### Explore simple commands with mavros
-
-Start the simulator and launch the gazebo environment (with or without simulated optitrack, see above)
-
-Run the example script:
+After console shows using GPS, run demo duo control  
 ```
-rosrun ardupilot_gazebo mavros_control.py
+rosrun ardupilot_gazebo demo_duo_control.py
 ```
-
-For more information, see `src/mavros_control.py`
 
 ## Troubleshooting
 
