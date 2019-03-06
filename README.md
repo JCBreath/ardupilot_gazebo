@@ -102,49 +102,20 @@ For more information, see `src/mavros_control.py`
 
 ## Troubleshooting
 
-### Missing libArduPilotPlugin.so ... etc
+### mavros_node error
 
-In case you see this message when you launch gazebo with demo worlds, check you have no error after sudo make install.  
-If no error use "ls" on the install path given to see if the plugin is really here.  
-If this is correct, check with "cat /usr/share/gazebo/setup.sh" the variable GAZEBO_PLUGIN_PATH. It should be the same as the install path. If not use "cp" to copy the lib to right path. 
+Sample error message:  
+`/opt/ros/kinetic/lib/mavros/mavros_node: symbol lookup error: /opt/ros/kinetic/lib//libmavros_plugins.so: undefined symbol: _ZN7mavconn16MAVConnInterface24send_message_ignore_dropERKN7mavlink7MessageEh`  
 
-For Example
-
-```
-sudo cp -a /usr/lib/x86_64-linux-gnu/gazebo-7.0/plugins/ /usr/lib/x86_64-linux-gnu/gazebo-7/
-```
-
-path mismatch is confirmed as ROS's glitch. It'll be fixed.
-
-### Unstable behavior
-
-Try reducing the roll rate D-gain:
-```
-> param set ATC_RAT_RLL_D 0.000100
+Please upgrade modules
+```bash
+sudo apt update
+sudo apt upgrade
 ```
 
-### Simulating Indoor GPS with optitrack
+### Cannot compile
+If mavlink and mavros are in src folder, try `catkin_make_isolated`  
+If cannot compile ardupilot_gazebo, please check if gazebo version is 7.14 or 8.0 (only two versions of Gazebo work fine)  
 
-In the simulation, make sure GPS and compass are off
-```
-> param set GPS_TYPE 0
-> param set EK2_GPS_TYPE 3
-> param set COMPASS_USE 0
-> param set COMPASS_USE2 0
-> param set COMPASS_USE3 0
-```
-
-### Future(not activated yet)
-To use Gazebo gps, you must offset the heading of +90° as gazebo gps is NWU and ardupilot is NED 
-(I don't use GPS altitude for now)  
-example : for SITL default location
-```
-    <spherical_coordinates>
-      <surface_model>EARTH_WGS84</surface_model>
-      <latitude_deg>-35.363261</latitude_deg>
-      <longitude_deg>149.165230</longitude_deg>
-      <elevation>584</elevation>
-      <heading_deg>87</heading_deg>
-    </spherical_coordinates>
-```
-
+### Cannot find ardupilot_gazebo use rosrun or roslaunch
+Try `source ./catkin_ws/devel/setup.bash` or `source ./catkin_ws/devel_isolated/setup.bash` if compiled isolatedly. 
