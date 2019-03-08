@@ -98,8 +98,15 @@ rosrun ardupilot_gazebo demo_duo_control.py
 
 ### mavros_node error
 
-Sample error message:  
+Sample error messages:  
 `/opt/ros/kinetic/lib/mavros/mavros_node: symbol lookup error: /opt/ros/kinetic/lib//libmavros_plugins.so: undefined symbol: _ZN7mavconn16MAVConnInterface24send_message_ignore_dropERKN7mavlink7MessageEh`  
+```
+================================================================================REQUIRED process [uav2/mavros-5] has died!
+process has died [pid 4257, exit code -6, cmd /opt/ros/kinetic/lib/mavros/mavros_node __name:=mavros __log:=/home/dronear/.ros/log/07d26dca-413a-11e9-9c9c-3497f69d0ed2/uav2-mavros-5.log].
+log file: /home/dronear/.ros/log/07d26dca-413a-11e9-9c9c-3497f69d0ed2/uav2-mavros-5*.log
+Initiating shutdown!
+================================================================================
+```
 
 Please upgrade modules
 ```bash
