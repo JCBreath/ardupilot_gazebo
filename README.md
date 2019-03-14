@@ -94,6 +94,11 @@ After console shows using GPS, run demo duo control
 rosrun ardupilot_gazebo demo_duo_control.py
 ```
 
+If you want to use joystick to control either one of the drones, run joystick duo control
+```
+rosrun ardupilot_gazebo joystick_duo_control.py
+```
+
 ## Troubleshooting
 
 ### mavros_node error
